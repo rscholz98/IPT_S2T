@@ -20,7 +20,7 @@ frames = []
 
 try:
     # Capture data from the microphone for a few seconds
-    for i in range(0, int(RATE / CHUNK * 5)):  # 5 seconds of audio
+    for i in range(0, int(RATE / CHUNK * 20)):
         data = stream.read(CHUNK)
         frames.append(data)
 finally:
