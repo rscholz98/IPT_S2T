@@ -5,6 +5,7 @@ from pydub import AudioSegment
 from st_audiorec import st_audiorec
 from transformers import pipeline
 import requests
+import os
 
 API_TOKEN = "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"
 
@@ -24,21 +25,28 @@ def transcribe_whisper(audio_path):
 
 st.set_page_config(layout="wide")
 
-with st.sidebar:
-    st.sidebar.image("./assets/structure.png")
 
-    option = st.selectbox(
-    "Select a example Audio file",
-    ("Richard Example"),
-    index=None,
-    placeholder="Select contact method...",
+
+with st.sidebar:
+    st.image("./assets/structure.png")
+
+    example_audios_dir = "./audio"
+    example_audio_files = [f for f in os.listdir(example_audios_dir) if os.path.isfile(os.path.join(example_audios_dir, f))]
+
+    selected_example = st.selectbox(
+        "Select an example Audio file",
+        example_audio_files,
+        index=None,
+        format_func=lambda x: x if x != "Richard Example" else "Select an example audio file...",
     )
 
-    st.write('You selected:', option)
+    if selected_example:
+        st.write('You selected:', selected_example)
+        example_audio_path = os.path.join(example_audios_dir, selected_example)
 
     gap_height = 200
-    st.sidebar.markdown(f"<div style='margin: {gap_height}px;'></div>", unsafe_allow_html=True)  
-    st.sidebar.image("./assets/logo.png")
+    st.markdown(f"<div style='margin: {gap_height}px;'></div>", unsafe_allow_html=True)
+    st.image("./assets/logo.png")
 
 tab1, tab2, tab3 = st.tabs([":gear: Main", ":loud_sound: Recording", ":blue_book: Insights"])
 
@@ -48,16 +56,31 @@ with tab1:
 
     uploaded_file = st.file_uploader("Choose a WAV file", type=["wav"])
 
+    # Initialize audio_path to None
+    audio_path = None
+
     if uploaded_file is not None:
-        st.audio(uploaded_file, format='audio/wav')
+        # If a file was uploaded, use it
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as tmp_file:
+            tmp_file.write(uploaded_file.getvalue())
+            audio_path = tmp_file.name
+    elif selected_example:
+        uploaded_file = True
+
+    if audio_path:
+        st.audio(audio_path, format='audio/wav')
 
     col1, col2 = st.columns(2)
 
     if uploaded_file is not None:
+
+        if uploaded_file is True:
+            audio_path = os.path.join(example_audios_dir, selected_example)
         
-        with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as tmp_file:
-            tmp_file.write(uploaded_file.getvalue())
-            audio_path = tmp_file.name
+        else:
+            with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as tmp_file:
+                tmp_file.write(uploaded_file.getvalue())
+                audio_path = tmp_file.name
 
         with col1:
             transcription_message_1 = st.empty()
@@ -76,9 +99,6 @@ with tab1:
         def correct_output(text):
             fix_spelling = pipeline("text2text-generation",model="oliverguhr/spelling-correction-german-base")
             return fix_spelling(text, max_length=256)
-
-        
-        
 
         with col1:
             transcription_message_3 = st.empty()
