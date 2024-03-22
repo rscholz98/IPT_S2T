@@ -12,8 +12,8 @@ def convert_audio_to_wav(audio_file):
         sound.export(tmp_file.name, format="wav")
         return tmp_file.name
 
-# Function to transcribe audio
-def transcribe_audio(audio_path):
+
+def transcribe_whisper(audio_path):
     model = whisper.load_model("base")  # Consider using a different model size based on your needs
     result = model.transcribe(audio_path, fp16=False)
     return result["text"]
@@ -36,7 +36,9 @@ if uploaded_file is not None:
         tmp_file.write(uploaded_file.getvalue())
         audio_path = tmp_file.name
 
-    # Transcribe and display
-    st.write("Transcribing...")
-    transcription = transcribe_audio(audio_path)
+    transcription_message = st.empty()
+    transcription_message.text("Transcribing...")
+    transcription = transcribe_whisper(audio_path)
+    transcription_message.empty()
     st.text_area("Transcription", value=transcription, height=200)
+
