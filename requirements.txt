@@ -2,3 +2,4 @@ streamlit==1.32.2
 openai==1.14.2
 openai-whisper== 20231117
 ffmpeg-python==0.2.0
+pydub==0.25.1

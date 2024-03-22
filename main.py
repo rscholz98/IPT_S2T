@@ -21,7 +21,6 @@ def transcribe_audio(audio_path):
 st.set_page_config(layout="wide")
 st.title(":loud_sound: Sprach Pro :loud_sound:")
 
-
 col1, col2 = st.columns(2)
 
 with col1:
@@ -40,6 +39,4 @@ if uploaded_file is not None:
     # Transcribe and display
     st.write("Transcribing...")
     transcription = transcribe_audio(audio_path)
-    st.text_area("Transcription", value=transcription, height=300)
-
-
+    st.text_area("Transcription", value=transcription, height=200)
