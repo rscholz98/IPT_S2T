@@ -4,11 +4,12 @@ import tempfile
 from transformers import pipeline
 import requests
 import os
+from dotenv import load_dotenv
 
 def show():
     st.header(":gear: App")
 
-    API_TOKEN = "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"
+    API_TOKEN = os.getenv('API_TOKEN')
 
     def transcribe_facebook(audio_path):
         url = "https://api-inference.huggingface.co/models/facebook/wav2vec2-large-xlsr-53-german"
