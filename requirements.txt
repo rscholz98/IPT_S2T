@@ -9,6 +9,11 @@ pocketsphinx
 # General
 python-dotenv
 
+assemblyai==0.24.0
+
+jiwer==3.0.3
+rapidfuzz==3.8.1
+
 ## Facebook German Model
 torchaudio
 transformers 

@@ -14,3 +14,6 @@ secondaryBackgroundColor = '#CCDEE5'
 
 [browser]
 gatherUsageStats = false
+
+[client]
+showSidebarNavigation = false

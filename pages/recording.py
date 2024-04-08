@@ -8,7 +8,7 @@ def show():
     
     recorded_audio = st_audiorec()
 
-    audio_dir = "./audio"
+    audio_dir = "../audio"
     os.makedirs(audio_dir, exist_ok=True)  # Ensure the directory exists
 
     # Function to save audio to WAV format in the specified directory

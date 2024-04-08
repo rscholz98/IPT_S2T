@@ -1,0 +1,1 @@
+Im ersten Schritt des Prozesses wird das Werkzeug in den dafür vorhergesehenen Arbeitsplatz gelegt. Nach dem Starten der Anlage wird der Arbeitsplatz gereinigt und das nächste Werkzeug vom Anlagenoperator vorbereitet, um den nächsten Batch zu verarbeiten.
