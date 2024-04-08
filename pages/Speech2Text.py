@@ -12,6 +12,7 @@ from src.utils import compare_texts
 import jiwer
 
 def show():
+    
     st.header(":speech_balloon: Speech-2-Text")
     load_dotenv()
 
@@ -97,7 +98,15 @@ def show():
         with open(text_path, 'r', encoding='utf-8') as file:
             original_text = file.read()
 
-        st.text_area("Original", value=original_text, height=200, key="original_text")
+        col1, col2 = st.columns([5, 1])
+
+        with col1:
+            st.text_area("Original", value=original_text, height=200, key="original_text")
+
+        with col2:
+            st.write("")
+            st.write('The highlighting of the errors doesnt take lower or upper cases into account. But it does look for missing "," & "." vaues.')
+            st.write('The "Word Error Rate" is calculated for every model. It doesnt take "," & "." into account.')
 
         col1, col2 = st.columns(2)
 
